@@ -1,7 +1,7 @@
 pipeline {
     agent any 
     parameters {
-        choice: (name: 'bubu' choices : ['bubu:1.0' , 'bubu:1.1' , 'bubu 1:2'] , description:  'version name of the owner')
+        choice: (name: 'bubu' choices: ['bubu:1.0', 'bubu:1.1', 'bubu 1:2'], description:  'version name of the owner')
         booleanParam: (name:'executeDeploy', defaultValue = true, description: 'bubu playing around' )
     }
     stages {
