@@ -1,10 +1,14 @@
 pipeline {
     agent any 
+    parameters {
+        choice: (name: 'bubu' choices : ['bubu:1.0' , 'bubu:1.1' , 'bubu 1:2'] , description:  'version name of the owner')
+        booleanParam: (name:'executeDeploy', defaultValue = true, description: 'bubu playing around' )
+    }
     stages {
         stage("Build") {
             steps {
                 echo 'installing npm'
-                echo 'building dthe file'
+                echo 'building the file'
 
             }
         }
@@ -15,8 +19,15 @@ pipeline {
             }
         }
         stage("Deploy") {
+            when {
+                expression {
+                    params.executeDeploy
+                } 
+                 
+            }
             steps {
-                echo 'Deployig the application'
+                echo 'Deploying the application'
+                echo "Deploying to version ${params.bubu}"
 
             }
         }
