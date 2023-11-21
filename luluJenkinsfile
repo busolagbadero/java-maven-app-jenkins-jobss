@@ -49,9 +49,3 @@ pipeline {
         }
     }
 }
-                echo "Deploying to version ${params.bubu}"
-
-            }
-        }
-    }
-}
