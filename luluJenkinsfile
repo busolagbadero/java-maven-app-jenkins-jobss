@@ -36,9 +36,17 @@ pipeline {
                     params.executeDeploy
                 } 
             }
+            input {
+              message "Enter an Environment"
+              ok "Done"
+              parameters {
+                   choice(name: 'ENV', choices: ['DEV', 'STAGING', 'PROD'], description: 'ENV')
+               }
+            }
             steps {
                 script {
                     gv.DeployApp()
+                    echo "Deploying to ${Env}"
                 }
             }
         }
