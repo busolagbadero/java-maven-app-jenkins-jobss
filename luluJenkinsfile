@@ -1,20 +1,35 @@
+def.gv
 pipeline {
     agent any 
     parameters {
-        choice(name: 'bubu', choices: ['bubu:1.0', 'bubu:1.1', 'bubu 1:2'], description:  'version name of the owner')
+        choice(name: 'bubu' choices: ['bubu:1.0', 'bubu:1.1', 'bubu 1:2'], description:  'version name of the owner')
         booleanParam(name:'executeDeploy', defaultValue: true, description: 'bubu playing around' )
     }
     stages {
-        stage("Build") {
-            steps {
-                echo 'installing npm'
-                echo 'building the file'
 
+        stage("init") {
+            steps {
+                script {
+                    gv = load "bubu.groovy"
+                }
             }
         }
+
+        stage("Build") {
+            steps {
+                script {
+                    gv.buildApp()
+   
+                }              
+            
+            }
+        }
+
         stage("Test") {
             steps {
-                echo 'Testing the application'
+                script {
+                    gv.TestApp()
+                }
 
             }
         }
@@ -26,7 +41,14 @@ pipeline {
                  
             }
             steps {
-                echo 'Deploying the application'
+                script {
+                    gv.DeployApp()
+                }
+
+            }
+        }
+    }
+}
                 echo "Deploying to version ${params.bubu}"
 
             }
