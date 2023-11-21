@@ -8,7 +8,7 @@ def TestApp() {
 
 def DeployApp() {
     echo "Deploying App"
-    echo "working on version {params.bubu} "
+    echo "working on version ${params.bubu}"
 }
 return this
 
