@@ -19,7 +19,7 @@ pipeline {
                 script {
                     // Call the buildJar function from the loaded script
 
-                    buildJar()
+                    sh 'mvn package'
                 }             
             }
         }
