@@ -15,6 +15,15 @@ pipeline {
         IMAGE_NAME = 'gbaderobusola/busola:my-app-1.1'
     }
    stages {
+        stage('init') {
+            steps {
+                script {
+                    gv = load "script.groovy"
+                }
+                echo 'loading groovy script'
+                
+            }
+         }
         stage('build app') {
             steps {
                script {
