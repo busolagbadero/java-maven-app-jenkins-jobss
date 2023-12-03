@@ -1,0 +1,75 @@
+
+@Library('jenkins-shared-library')_
+
+pipeline {
+    agent any
+    tools {
+        maven 'maven-b'
+    }
+
+    stages {
+
+
+        stage('Init') {
+            steps {
+                script {
+                    // Load the Groovy script from the library
+                    gv = load "script.groovy"
+                    echo 'Loading Groovy script'
+
+                }
+                echo 'loading groovy script'
+                
+            }
+        }
+
+
+
+        stage('Build Jar') {
+            steps {
+                script {
+                    // Call the buildJar function from the loaded script
+
+                    buildJar()
+                }             
+            }
+        }
+
+        stage('Build,Login and Push Image') {
+            steps {
+                script {
+                  buildimage 'gbaderobusola/busola:my-app-1.1'
+                  dockerLogin()
+                  dockerPush 'gbaderobusola/busola:my-app-1.1'
+                }
+            }
+        }
+
+      stage("deploy") {
+            steps {
+                script {
+                    echo "deploying"
+                    def ssh = 'docker run -d -p 8080:8080 gbaderobusola/busola:my-app-1.1' 
+                    sshagent(['Ubuntu-SSH']) {
+                         sh "ssh -o StrictHostKeyChecking=no ubuntu@100.25.183.255 ${ssh}"
+                        }
+                    
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            echo 'This will always run, regardless of the pipeline result.'
+        }
+
+        success {
+            echo 'The pipeline has succeeded!'
+        }
+
+        failure {
+            echo 'The pipeline has failedd.'
+        }
+    }
+}
