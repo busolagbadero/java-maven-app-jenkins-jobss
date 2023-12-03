@@ -9,22 +9,6 @@ pipeline {
 
     stages {
 
-
-        stage('Init') {
-            steps {
-                script {
-                    // Load the Groovy script from the library
-                    gv = load "script.groovy"
-                    echo 'Loading Groovy script'
-
-                }
-                echo 'loading groovy script'
-                
-            }
-        }
-
-
-
         stage('Build Jar') {
             steps {
                 script {
