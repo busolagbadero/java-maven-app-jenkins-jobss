@@ -11,30 +11,30 @@ pipeline {
     tools {
         maven 'maven-b'
     }
-
-    stages {
-
-        stage('Build Jar') {
+    environment {
+        IMAGE_NAME = 'gbaderobusola/busola:my-app-1.1'
+    }
+   stages {
+        stage('build app') {
             steps {
-                script {
-                    // Call the buildJar function from the loaded script
-
-                    gv.buildJar()
-                }             
+               script {
+                  echo 'building application jar...'
+                  buildJar()
+               }
             }
         }
-
-        stage('Build,Login and Push Image') {
+        stage('build image') {
             steps {
                 script {
-                  buildimage 'gbaderobusola/busola:my-app-1.1'
-                  dockerLogin()
-                  dockerPush 'gbaderobusola/busola:my-app-1.1'
+                   echo 'building docker image...'
+                   buildImage(env.IMAGE_NAME)
+                   dockerLogin()
+                   dockerPush(env.IMAGE_NAME)
                 }
             }
         }
-
-      stage("deploy") {
+       
+       stage("deploy") {
             steps {
                 script {
                     echo "deploying"
@@ -62,3 +62,10 @@ pipeline {
         }
     }
 }
+
+
+
+
+
+
+
